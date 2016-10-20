@@ -33,5 +33,5 @@ You can now see the docs at http://localhost:4567. Whoa! That was fast!
 Contributors
 --------------------
 
-The main contributor to this fork is [Roberto Marco](https://github.com/robmarco).
+The main contributor to this fork is [Roberto Marco](https://github.com/robmarco) and [Josué de León](https://github.com/kohrong).
 Slate Framework was built by [Robert Lord](https://lord.io) while at [TripIt](https://www.tripit.com/).
