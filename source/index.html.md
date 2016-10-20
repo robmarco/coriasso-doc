@@ -1,12 +1,8 @@
 ---
-title: CROCODΞ - API Documentation
+title: Coriassos - API Documentation
 
 language_tabs:
-  - shell
-  - ruby
-
-toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
+  - curl
 
 # includes:
 #  - errors
@@ -16,17 +12,11 @@ search: true
 
 # Introduction
 
-> Libraries for this API are [available in several languages](http://www.github.com/crocode-mobi)
-
 <br>
 > Api Endpoint
 
-```shell
-https://api.crocode.mobi
-```
-
-```ruby
-https://api.crocode.mobi
+```curl
+https://api.coriassos.mobi
 ```
 
 This API is organized around [REST](http://en.wikipedia.org/wiki/Representational_State_Transfer). Our API has predictable, resource-oriented URLs, and uses HTTP response codes to indicate API errors. We use built-in HTTP features, like HTTP authentication and HTTP verbs, which are understood by off-the-shelf HTTP clients.
@@ -38,18 +28,15 @@ We support [cross-origin resource sharing](http://en.wikipedia.org/wiki/Cross-or
 
 # Authentication
 
-```shell
+```curl
 # Authentication using HTTP basic auth.
-curl 'https://api.crocode.mobi/v1/login' \
+curl 'https://api.coriassos.mobi/v1/login' \
   -u {key}:
 
 # Alternatively pass a Bearer token in an Authorization header.
-curl 'https://api.crocode.mobi/v1/login' \
+curl 'https://api.coriassos.mobi/v1/login' \
   -H 'Authorization: Token token={key}'
 ```
-
-```ruby
-require 'crocode-client'
 
 api = Crocode::APIClient.authorize!('key')
 ```
@@ -111,64 +98,412 @@ queued | Lookup queued. Try this request again in a few minutes.
 rate_limit | The request has been rate limited.
 api_error | Internal API error.
 
-# Webhooks
+# Beers
 
-Certain requests may have an asynchronous response (since there’s some complex background processing involved). For these requests you can either poll the endpoint, or give us a webhook URL you want to be called when the request has finished processing.
+You can find actions related with a list of beers or a beer.
 
-You can set a webhook URL endpoint in your [Dashboard](http://www.crocode.mobi/developers) to be used with all requests.
+## Get Beers
 
-To link up your requests to webhooks you can pass a webhook_id parameter when making these calls, containing a custom defined webhook identifier. We’ll pass this identifier back to you with the webhook request.
+This endpoint retrieves a list of beers.
 
-If you return anything other than a HTTP <code>200</code> status to the webhook POST then we’ll try to deliver the webhook up to 5 times with an exponential backoff.
-
-# Service 1
-
-## Get Resource
-
-This endpoint retrieves a specific resource.
-
-```ruby
-require 'crocode-client'
-
-api = Crocode::APIClient.authorize!('key')
-api.resource.get(id)
-```
-
-```shell
-curl "http://api.crocode.mobi/v1/resources/id"
-  -H "Authorization: Token token=key"
+```curl
+curl "http://api.coriassos.mobi/v1/beers"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
 {
-  "resource": {
+    "pagination":
+    {
+        "current": 1,
+        "next": null,
+        "previous": null,
+        "first_page": true,
+        "last_page": true,
+        "total_pages": 1,
+        "total_items": 20
+    },
+    "data":
+    [
+        {
+            "id": 1,
+            "name": "Yuengling Black & Tan",
+            "origin": "Pennsylvania, USA",
+            "abv": 4.7,
+            "description": "No notes at this time.",
+            "created_at": "2016-10-20 11:54:49+0200",
+            "updated_at": "2016-10-20 11:54:49+0200",
+            "style":
+            {
+                "id": 1,
+                "name": "Black & Tan",
+                "description": "This applies to pre-blended packaged beers, where a brewery will blend a dark ale with a light ale or lager. It's by no means a traditional style of beer, but rather brewers capitalizing on the concept practiced at bars where the beers are physically layered.",
+                "created_at": "2016-10-20 11:54:49+0200",
+                "updated_at": "2016-10-20 11:54:49+0200"
+            }
+        }
+    ]
+}
+```
+
+### HTTP Request
+
+`GET http://api.coriassos.mobi.com/v1/beers`
+
+##Get beer
+
+This endpoint retrieves a beer
+
+```curl
+curl "http://api.coriassos.mobi/v1/beers/beerId"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "data": {
     "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
+    "name": "Yuengling Black & Tan",
+    "origin": "Pennsylvania, USA",
+    "abv": 4.7,
+    "description": "No notes at this time.",
+    "created_at": "2016-10-20 11:54:49+0200",
+    "updated_at": "2016-10-20 11:54:49+0200",
+    "style": {
+      "id": 1,
+      "name": "Black & Tan",
+      "description": "This applies to pre-blended packaged beers, where a brewery will blend a dark ale with a light ale or lager. It's by no means a traditional style of beer, but rather brewers capitalizing on the concept practiced at bars where the beers are physically layered.",
+      "created_at": "2016-10-20 11:54:49+0200",
+      "updated_at": "2016-10-20 11:54:49+0200"
+    },
+    "variants": [
+      {
+        "id": 1,
+        "size": "33cl",
+        "price": 150,
+        "status": "enable",
+        "created_at": "2016-10-20 11:54:49+0200",
+        "updated_at": "2016-10-20 11:54:49+0200"
+      },
+      {
+        "id": 2,
+        "size": "50cl",
+        "price": 210,
+        "status": "enable",
+        "created_at": "2016-10-20 11:54:49+0200",
+        "updated_at": "2016-10-20 11:54:49+0200"
+      },
+      {
+        "id": 3,
+        "size": "75cl",
+        "price": 300,
+        "status": "enable",
+        "created_at": "2016-10-20 11:54:49+0200",
+        "updated_at": "2016-10-20 11:54:49+0200"
+      }
+    ]
   }
 }
 ```
 
 ### HTTP Request
 
-`GET http://api.crocode.mobi.com/v1/resources<ID>`
+`GET http://api.coriassos.mobi.com/v1/beers/<beerId>`
 
-### URL Parameters
+# Categories
 
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
+A category is an agrupation of beers defined by common characteristics
 
-<div class="wrap">
-  <div class="alert notice">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</div>
-</div>
+## Get Categories
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. In erat mauris, faucibus quis pharetra sit amet, pretium ac libero. Etiam vehicula eleifend bibendum. Morbi gravida metus ut sapien condimentum sodales mollis augue sodales. Vestibulum quis quam at sem placerat aliquet. Curabitur a felis at sapien ullamcorper fermentum. Mauris molestie arcu et lectus iaculis sit amet eleifend eros posuere. Fusce nec porta orci.
+This endpoint retrieves a list of categories
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. In erat mauris, faucibus quis pharetra sit amet, pretium ac libero. Etiam vehicula eleifend bibendum. Morbi gravida metus ut sapien condimentum sodales mollis augue sodales. Vestibulum quis quam at sem placerat aliquet. Curabitur a felis at sapien ullamcorper fermentum. Mauris molestie arcu et lectus iaculis sit amet eleifend eros posuere. Fusce nec porta orci.
+```curl
+curl "http://api.coriassos.mobi/v1/categories"
+```
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. In erat mauris, faucibus quis pharetra sit amet, pretium ac libero. Etiam vehicula eleifend bibendum. Morbi gravida metus ut sapien condimentum sodales mollis augue sodales. Vestibulum quis quam at sem placerat aliquet. Curabitur a felis at sapien ullamcorper fermentum. Mauris molestie arcu et lectus iaculis sit amet eleifend eros posuere. Fusce nec porta orci.
+> The above command returns JSON structured like this:
+
+```json
+{
+  "pagination": {
+    "current": 1,
+    "next": null,
+    "previous": null,
+    "first_page": true,
+    "last_page": true,
+    "total_pages": 1,
+    "total_items": 2
+  },
+  "data": [
+    {
+      "id": 1,
+      "name": "Wild West America",
+      "description": "",
+      "status": "active",
+      "created_at": "2016-10-20 11:54:49+0200",
+      "updated_at": "2016-10-20 11:54:49+0200"
+    },
+    {
+      "id": 2,
+      "name": "Loving Europe",
+      "description": "",
+      "status": "active",
+      "created_at": "2016-10-20 11:54:49+0200",
+      "updated_at": "2016-10-20 11:54:49+0200"
+    }
+  ]
+}
+```
+
+### HTTP Request
+
+`GET http://api.coriassos.mobi.com/v1/categories`
+
+## Get Category
+
+This endpoint retrieves a Category
+
+```curl
+curl "http://api.coriassos.mobi/v1/categories/categoryId"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "data": {
+    "id": 1,
+    "name": "Wild West America",
+    "description": "",
+    "status": "active",
+    "created_at": "2016-10-20 11:54:49+0200",
+    "updated_at": "2016-10-20 11:54:49+0200"
+  }
+}
+```
+
+### HTTP Request
+
+`GET http://api.coriassos.mobi.com/v1/categories/<categoryId>`
+
+## Get beers from a Category
+
+This endpoint retrieves all the beers that belong to a category
+
+```curl
+curl "http://api.coriassos.mobi/v1/categories/categoryId/beers"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "pagination": {
+    "current": 1,
+    "next": null,
+    "previous": null,
+    "first_page": true,
+    "last_page": true,
+    "total_pages": 1,
+    "total_items": 13
+  },
+  "data": {
+    "category": {
+      "id": 1,
+      "name": "Wild West America",
+      "description": "",
+      "status": "active",
+      "created_at": "2016-10-20 11:54:49+0200",
+      "updated_at": "2016-10-20 11:54:49+0200"
+    },
+    "beers": [
+      {
+        "id": 1,
+        "name": "Yuengling Black & Tan",
+        "origin": "Pennsylvania, USA",
+        "abv": 4.7,
+        "description": "No notes at this time.",
+        "created_at": "2016-10-20 11:54:49+0200",
+        "updated_at": "2016-10-20 11:54:49+0200",
+        "style": {
+          "id": 1,
+          "name": "Black & Tan",
+          "description": "This applies to pre-blended packaged beers, where a brewery will blend a dark ale with a light ale or lager. It's by no means a traditional style of beer, but rather brewers capitalizing on the concept practiced at bars where the beers are physically layered.",
+          "created_at": "2016-10-20 11:54:49+0200",
+          "updated_at": "2016-10-20 11:54:49+0200"
+        }
+      },
+      {
+        "id": 2,
+        "name": "Grazias Induresca",
+        "origin": "California, USA",
+        "abv": 6.5,
+        "description": "No notes at this time.",
+        "created_at": "2016-10-20 11:54:49+0200",
+        "updated_at": "2016-10-20 11:54:49+0200",
+        "style": {
+          "id": 1,
+          "name": "Black & Tan",
+          "description": "This applies to pre-blended packaged beers, where a brewery will blend a dark ale with a light ale or lager. It's by no means a traditional style of beer, but rather brewers capitalizing on the concept practiced at bars where the beers are physically layered.",
+          "created_at": "2016-10-20 11:54:49+0200",
+          "updated_at": "2016-10-20 11:54:49+0200"
+        }
+      }
+    ]
+  }
+}
+```
+
+### HTTP Request
+
+`GET http://api.coriassos.mobi.com/v1/categories/<categoryId>/beers`
+
+# Styles
+
+A Style is a label given to a beer that describes its overall character and often times its origin
+
+## Get Styles
+
+This endpoint retrieves a list of Styles
+
+```curl
+curl "http://api.coriassos.mobi/v1/styles"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "pagination": {
+    "current": 1,
+    "next": null,
+    "previous": null,
+    "first_page": true,
+    "last_page": true,
+    "total_pages": 1,
+    "total_items": 5
+  },
+  "data": [
+    {
+      "id": 1,
+      "name": "Black & Tan",
+      "description": "This applies to pre-blended packaged beers, where a brewery will blend a dark ale with a light ale or lager. It's by no means a traditional style of beer, but rather brewers capitalizing on the concept practiced at bars where the beers are physically layered.",
+      "created_at": "2016-10-20 11:54:49+0200",
+      "updated_at": "2016-10-20 11:54:49+0200"
+    },
+    {
+      "id": 2,
+      "name": "Belgian IPA",
+      "description": "Inspired by the American India Pale Ale (IPA) and Double IPA, more and more Belgian brewers are brewing hoppy pale colored ales for the US market (like Chouffe & Urthel), and there's been an increase of Belgian IPAs being brewed by American brewers. Generally, Belgian IPAs are considered too hoppy by Belgian beer drinkers.",
+      "created_at": "2016-10-20 11:54:49+0200",
+      "updated_at": "2016-10-20 11:54:49+0200"
+    }
+  ]
+}
+```
+
+### HTTP Request
+
+`GET http://api.coriassos.mobi.com/v1/styles`
+
+## Get Style
+
+This endpoint retrieves a Style
+
+```curl
+curl "http://api.coriassos.mobi/v1/styles/styleId"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "data": {
+    "style": {
+      "id": 1,
+      "name": "Black & Tan",
+      "description": "This applies to pre-blended packaged beers, where a brewery will blend a dark ale with a light ale or lager. It's by no means a traditional style of beer, but rather brewers capitalizing on the concept practiced at bars where the beers are physically layered.",
+      "created_at": "2016-10-20 11:54:49+0200",
+      "updated_at": "2016-10-20 11:54:49+0200"
+    }
+  }
+}
+```
+
+### HTTP Request
+
+`GET http://api.coriassos.mobi.com/v1/styles/<styleId>`
+
+## Get beers from a style
+
+This endpoint retrieves a beer that belong to a style
+
+```curl
+curl "http://api.coriassos.mobi/v1/styles/styleId/beers"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "pagination": {
+    "current": 1,
+    "next": null,
+    "previous": null,
+    "first_page": true,
+    "last_page": true,
+    "total_pages": 1,
+    "total_items": 4
+  },
+  "data": {
+    "style": {
+      "id": 1,
+      "name": "Black & Tan",
+      "description": "This applies to pre-blended packaged beers, where a brewery will blend a dark ale with a light ale or lager. It's by no means a traditional style of beer, but rather brewers capitalizing on the concept practiced at bars where the beers are physically layered.",
+      "created_at": "2016-10-20 11:54:49+0200",
+      "updated_at": "2016-10-20 11:54:49+0200"
+    },
+    "beers": [
+      {
+        "id": 1,
+        "name": "Yuengling Black & Tan",
+        "origin": "Pennsylvania, USA",
+        "abv": 4.7,
+        "description": "No notes at this time.",
+        "created_at": "2016-10-20 11:54:49+0200",
+        "updated_at": "2016-10-20 11:54:49+0200",
+        "style": {
+          "id": 1,
+          "name": "Black & Tan",
+          "description": "This applies to pre-blended packaged beers, where a brewery will blend a dark ale with a light ale or lager. It's by no means a traditional style of beer, but rather brewers capitalizing on the concept practiced at bars where the beers are physically layered.",
+          "created_at": "2016-10-20 11:54:49+0200",
+          "updated_at": "2016-10-20 11:54:49+0200"
+        }
+      },
+      {
+        "id": 2,
+        "name": "Grazias Induresca",
+        "origin": "California, USA",
+        "abv": 6.5,
+        "description": "No notes at this time.",
+        "created_at": "2016-10-20 11:54:49+0200",
+        "updated_at": "2016-10-20 11:54:49+0200",
+        "style": {
+          "id": 1,
+          "name": "Black & Tan",
+          "description": "This applies to pre-blended packaged beers, where a brewery will blend a dark ale with a light ale or lager. It's by no means a traditional style of beer, but rather brewers capitalizing on the concept practiced at bars where the beers are physically layered.",
+          "created_at": "2016-10-20 11:54:49+0200",
+          "updated_at": "2016-10-20 11:54:49+0200"
+        }
+      }
+    ]
+  }
+}
+```
+
+### HTTP Request
+
+`GET http://api.coriassos.mobi.com/v1/styles/<styleId>/beers`
