@@ -25,9 +25,12 @@ bundle exec middleman server
 
 # OR run this to run with vagrant
 vagrant up
+
+# OR run this to run with cap
+cap production deploy
 ```
 
-You can now see the docs at http://localhost:4567. Whoa! That was fast!
+You can now see the docs at http://localhost:4567 or http://52.209.73.13. Whoa! That was fast!
 
 
 Contributors
