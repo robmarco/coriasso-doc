@@ -2,7 +2,7 @@
 lock '3.6.1'
 
 # Change these
-server 'IP', port: 22, user: 'deployer', roles: [:web, :app], primary: true
+server '52.209.73.13', port: 22, user: 'deployer', roles: [:web, :app], primary: true
 
 set :repo_url,        'git@github.com:robmarco/coriasso-doc.git' # SSH git url
 set :application,     'coriasso-doc'
